@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CreateEdges : MonoBehaviour {
+public class TankScript : MonoBehaviour {
     public int numSides;//the number of sides the "placement object" has. This assumes the placement object is a parallelogram
     public GameObject redspot;
 
-    private List<GameObject> mounts = new List<GameObject>();
+    List<GameObject> mounts = new List<GameObject>();
 
-    private List<Vector2> GetCorners(float radius) {
+    List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
 
         for (var i = 0; i < numSides; i++) {
@@ -52,7 +52,7 @@ public class CreateEdges : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    void Update() {
         foreach (GameObject mount in mounts) {
             mount.GetComponent<UpdatePosition>().UpdateMountPosition();
         }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4238085737287234173}
   m_Layer: 0
   m_Name: Weapon
-  m_TagString: Untagged
+  m_TagString: Widget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -125,4 +125,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redspot: {fileID: 7793989055670730166, guid: 1c0c809ecd70a2e458ff7a6a9d6bf31e, type: 3}
   snapDistance: 1
-  tank: {fileID: 762634842654864273, guid: a8a8a3a33b5631a45bd47dc13229be78, type: 3}

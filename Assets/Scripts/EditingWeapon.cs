@@ -2,15 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponDrag : MonoBehaviour {
+public class EditingWeapon : MonoBehaviour {
     public GameObject redspot;//the location weapons will snap to
-    public float snapDistance;//the distance weapons can be from mounting locations before they'll snap to them.
+    public float snapDistance = 1;//the distance weapons can be from mounting locations before they'll snap to them.
 
-    private GameObject closestMount;
+    GameObject closestMount;
+
+    void Start() {
+        redspot = GameObject.FindGameObjectWithTag("Mounting");
+    }
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
-    private void OnMouseDrag() {
-        if (closestMount != null) { //if a closest moutn has been set, break the connection in both directions.
+    void OnMouseDrag() {
+        if (closestMount != null) {//if a closest mount has been set, break the connection in both directions.
             closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
             closestMount = null;//remove this gameobject's reference to the mount
         }
@@ -25,7 +29,7 @@ public class WeaponDrag : MonoBehaviour {
     }
 
     //when the mouse is let go--i.e., after you stop dragging--look for the nearest mount and snap to it.
-    private void OnMouseUp() {
+    void OnMouseUp() {
         closestMount = GetClosestMount(GameObject.FindGameObjectsWithTag("Mounting"));
 
         if (closestMount != null) {
@@ -35,7 +39,7 @@ public class WeaponDrag : MonoBehaviour {
     }
 
     //Return the nearest GameObject, from the given list. Returns null if none are closer than 50, or if the list is empty.
-    private GameObject GetClosestMount(GameObject[] mounts) {
+    GameObject GetClosestMount(GameObject[] mounts) {
         GameObject closestMount = null;
         float closestDistanceSqr = snapDistance;
         Vector3 currentPosition = transform.position;
