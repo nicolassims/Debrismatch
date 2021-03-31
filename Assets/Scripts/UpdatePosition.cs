@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class UpdatePosition : MonoBehaviour {
-    public GameObject master;
-    public GameObject servant;
+    public GameObject master;//the tank this mountingpoint is attached to
+    public GameObject servant;//the weapon, if any, this mountingpoint is attached to
 
     private Vector2 localPos;
 

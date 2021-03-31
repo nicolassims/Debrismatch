@@ -10,16 +10,18 @@ public class WeaponDrag : MonoBehaviour {
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
     private void OnMouseDrag() {
-        if (closestMount != null) { 
-            closestMount.GetComponent<UpdatePosition>().servant = null;
-            closestMount = null;
+        if (closestMount != null) { //if a closest moutn has been set, break the connection in both directions.
+            closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
+            closestMount = null;//remove this gameobject's reference to the mount
         }
 
-        transform.position = new Vector3(
-            Camera.main.ScreenToWorldPoint(Input.mousePosition).x, 
-            Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector3(mousepos.x, mousepos.y);
 
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(transform.position.y, transform.position.x) + 180);
+        Vector2 tank = GameObject.Find("Tank").transform.position;
+        float newy = transform.position.y - tank.y;
+        float newx = transform.position.x - tank.x;
+        transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(newy, newx) + 180);
     }
 
     //when the mouse is let go--i.e., after you stop dragging--look for the nearest mount and snap to it.
