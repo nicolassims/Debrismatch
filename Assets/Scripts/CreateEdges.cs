@@ -7,6 +7,8 @@ public class CreateEdges : MonoBehaviour {
     public int numSides;//the number of sides the "placement object" has. This assumes the placement object is a parallelogram
     public GameObject redspot;
 
+    private List<GameObject> mounts = new List<GameObject>();
+
     private List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
 
@@ -44,7 +46,16 @@ public class CreateEdges : MonoBehaviour {
             //converting Vector2 into Vector3
             Vector3 v3 = pos;
             //creating the red spot at the edge of the object. the empty Quaternion is mandatory.
-            Instantiate(redspot, v3, new Quaternion());
+            redspot = Instantiate(redspot, v3, new Quaternion());
+            redspot.GetComponent<UpdatePosition>().master = gameObject;
+            mounts.Add(redspot);
         }
     }
+
+    private void Update() {
+        foreach (GameObject mount in mounts) {
+            mount.GetComponent<UpdatePosition>().UpdateMountPosition();
+        }
+    }
+
 }
