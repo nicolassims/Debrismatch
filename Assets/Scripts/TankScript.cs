@@ -8,6 +8,7 @@ public class TankScript : MonoBehaviour {
     public GameObject redspot;
 
     List<GameObject> mounts = new List<GameObject>();
+    MasterScript master;
 
     List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
@@ -28,6 +29,7 @@ public class TankScript : MonoBehaviour {
             throw new ArgumentException("Number of sides cannot be <3.");
         }
 
+        master = GameObject.FindGameObjectWithTag("Master").GetComponent<MasterScript>();
         List<Vector2> points = GetCorners(GetComponent<SpriteRenderer>().sprite.rect.width / 2);
         
         //find the midpoints of each edge and add them together.
@@ -56,6 +58,12 @@ public class TankScript : MonoBehaviour {
         foreach (GameObject mount in mounts) {
             mount.GetComponent<UpdatePosition>().UpdateMountPosition();
         }
-    }
 
+        if (!master.editing) {
+            float x = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) - Convert.ToInt32(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)));
+            float y = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) - Convert.ToInt32(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)));
+
+            transform.Translate(x, y, 0);           
+        }
+    }
 }
