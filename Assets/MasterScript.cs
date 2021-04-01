@@ -20,16 +20,15 @@ public class MasterScript : MonoBehaviour {
             if (editing) {
                 cam.orthographicSize /= 3;
                 foreach (GameObject go in widgetlist) {
-                    go.AddComponent<EditingWeapon>();
+                    go.GetComponent<EditingWeapon>().enabled = true;
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
-                    mount.GetComponent<UpdatePosition>().servant = null;
                 }
             } else {
                 cam.orthographicSize *= 3;
                 foreach (GameObject go in widgetlist) {
-                    Destroy(go.GetComponent<EditingWeapon>());
+                    go.GetComponent<EditingWeapon>().enabled = false;
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = false;
