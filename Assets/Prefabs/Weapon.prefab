@@ -126,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   redspot: {fileID: 7793989055670730166, guid: 1c0c809ecd70a2e458ff7a6a9d6bf31e, type: 3}
   snapDistance: 1
+  closestMount: {fileID: 0}
 --- !u!114 &2635837523695518569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,3 +139,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55abe45f4dcac248b157fd8bae8ddbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bullet: {fileID: 4928940077380146137, guid: 044d12e2fea3ae74284c7716d7778ef0, type: 3}
+  maxcooldown: 30

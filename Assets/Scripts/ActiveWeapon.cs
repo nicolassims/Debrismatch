@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ActiveWeapon : MonoBehaviour {
+    public GameObject bullet;
+    public int maxcooldown;
+
+    private int cooldown = 0;
 
     void Update() {
         Vector3 mouse_pos = Input.mousePosition;
@@ -11,5 +15,11 @@ public class ActiveWeapon : MonoBehaviour {
         mouse_pos.y = mouse_pos.y - object_pos.y;
         float angle = Mathf.Atan2(mouse_pos.y, mouse_pos.x) * Mathf.Rad2Deg + 180;
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+
+        cooldown--;
+        if (cooldown <= 0 && Input.GetMouseButton(0)) {
+            cooldown = maxcooldown;
+            Instantiate(bullet, transform.position - 951 * transform.right / 200, transform.rotation);
+        }
     }
 }

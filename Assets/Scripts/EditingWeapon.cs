@@ -5,8 +5,7 @@ using UnityEngine;
 public class EditingWeapon : MonoBehaviour {
     public GameObject redspot;//the location weapons will snap to
     public float snapDistance = 1;//the distance weapons can be from mounting locations before they'll snap to them.
-
-    GameObject closestMount;
+    public GameObject closestMount;
 
     void Start() {
         redspot = GameObject.FindGameObjectWithTag("Mounting");

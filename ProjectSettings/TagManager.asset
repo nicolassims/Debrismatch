@@ -8,6 +8,7 @@ TagManager:
   - Widget
   - Tank
   - Master
+  - Bullet
   layers:
   - Default
   - TransparentFX
