@@ -21,6 +21,7 @@ public class MasterScript : MonoBehaviour {
                 cam.orthographicSize /= 3;
                 foreach (GameObject go in widgetlist) {
                     go.GetComponent<EditingWeapon>().enabled = true;
+                    go.GetComponent<BoxCollider2D>().enabled = true;
                     go.GetComponent<ActiveWeapon>().enabled = false;
                 }
                 foreach (GameObject mount in mountlist) {
@@ -30,7 +31,11 @@ public class MasterScript : MonoBehaviour {
                 cam.orthographicSize *= 3;
                 foreach (GameObject go in widgetlist) {
                     go.GetComponent<EditingWeapon>().enabled = false;
+                    go.GetComponent<BoxCollider2D>().enabled = false;
                     go.GetComponent<ActiveWeapon>().enabled = true;
+                    if (go.GetComponent<EditingWeapon>().closestMount == null) {
+                        Destroy(go);
+                    }
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = false;
