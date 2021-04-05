@@ -18,9 +18,9 @@ public class MasterScript : MonoBehaviour {
             GameObject[] mountlist = GameObject.FindGameObjectsWithTag("Mounting");
             GameObject tank = GameObject.FindGameObjectWithTag("Tank");
             if (editing) {
-                cam.orthographicSize /= 3;
+                cam.orthographicSize = 10;
                 foreach (GameObject go in widgetlist) {
-                    go.GetComponent<EditingWeapon>().enabled = true;
+                    go.GetComponent<EditingWidget>().enabled = true;
                     go.GetComponent<BoxCollider2D>().enabled = true;
                     go.GetComponent<ActiveWeapon>().enabled = false;
                 }
@@ -28,12 +28,15 @@ public class MasterScript : MonoBehaviour {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
                 }
             } else {
-                cam.orthographicSize *= 3;
+                cam.orthographicSize = 30;
                 foreach (GameObject go in widgetlist) {
-                    go.GetComponent<EditingWeapon>().enabled = false;
+                    go.GetComponent<EditingWidget>().enabled = false;
                     go.GetComponent<BoxCollider2D>().enabled = false;
-                    go.GetComponent<ActiveWeapon>().enabled = true;
-                    if (go.GetComponent<EditingWeapon>().closestMount == null) {
+                    ActiveWeapon aw = go.GetComponent<ActiveWeapon>();
+                    if (aw != null) {
+                        go.GetComponent<ActiveWeapon>().enabled = true;
+                    }
+                    if (go.GetComponent<EditingWidget>().closestMount == null) {
                         Destroy(go);
                     }
                 }

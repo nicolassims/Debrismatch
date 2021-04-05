@@ -12,9 +12,8 @@ GameObject:
   - component: {fileID: 9109681323771439394}
   - component: {fileID: 8863084952527305213}
   - component: {fileID: 4238085737287234173}
-  - component: {fileID: 2635837523695518569}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: Engine
   m_TagString: Widget
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -6798643731737478062, guid: d738e54a91b79354d869c93b61244f3c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 094fe19063f43324b826090b12349ddd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,7 +82,7 @@ SpriteRenderer:
   m_Size: {x: 9.51, y: 3.39}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8863084952527305213
@@ -99,18 +98,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -4.755, y: 0}
+  m_Offset: {x: -4.06, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 1, y: 0.5}
-    oldSize: {x: 9.51, y: 3.39}
-    newSize: {x: 9.51, y: 3.39}
+    oldSize: {x: 8.12, y: 4.46}
+    newSize: {x: 8.12, y: 4.46}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.51, y: 3.39}
+  m_Size: {x: 8.12, y: 4.46}
   m_EdgeRadius: 0
 --- !u!114 &4238085737287234173
 MonoBehaviour:
@@ -127,17 +126,3 @@ MonoBehaviour:
   redspot: {fileID: 7793989055670730166, guid: 1c0c809ecd70a2e458ff7a6a9d6bf31e, type: 3}
   snapDistance: 1
   closestMount: {fileID: 0}
---- !u!114 &2635837523695518569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9109681323771439395}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f55abe45f4dcac248b157fd8bae8ddbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 4928940077380146137, guid: 044d12e2fea3ae74284c7716d7778ef0, type: 3}
-  maxcooldown: 30

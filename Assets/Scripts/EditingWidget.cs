@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EditingWeapon : MonoBehaviour {
+public class EditingWidget : MonoBehaviour {
     public GameObject redspot;//the location weapons will snap to
     public float snapDistance = 1;//the distance weapons can be from mounting locations before they'll snap to them.
     public GameObject closestMount;
