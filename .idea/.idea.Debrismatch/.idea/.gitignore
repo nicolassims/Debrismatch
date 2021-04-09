@@ -1,0 +1,13 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/projectSettingsUpdater.xml
+/modules.xml
+/contentModel.xml
+/.idea.Debrismatch.iml
+# Datasource local storage ignored files
+/../../../../../../../../../:\Users\wiiwi\Documents\GitHub\Debrismatch\.idea\.idea.Debrismatch\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/

@@ -5,7 +5,8 @@ using UnityEngine;
 public class UpdatePosition : MonoBehaviour {
     public GameObject master;//the tank this mountingpoint is attached to
     public GameObject servant;//the weapon, if any, this mountingpoint is attached to
-
+    public float myRotation;
+    
     private Vector2 localPos;
 
     // Start is called before the first frame update

@@ -33,7 +33,9 @@ public class EditingWidget : MonoBehaviour {
 
         if (closestMount != null) {
             transform.position = closestMount.transform.position;
-            closestMount.GetComponent<UpdatePosition>().servant = gameObject;
+            UpdatePosition spot = closestMount.GetComponent<UpdatePosition>();
+            spot.servant = gameObject;
+            spot.myRotation = transform.rotation.eulerAngles.z;
         }
     }
 
