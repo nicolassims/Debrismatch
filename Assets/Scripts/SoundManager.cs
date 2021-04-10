@@ -38,7 +38,7 @@ public class SoundManager : MonoBehaviour
 
     // internal state
     [FormerlySerializedAs("_currentBgmChannel")] [SerializeField] private int currentBgmChannel;
-    private SoundStateTransition _transition = SoundStateTransition.Crossfade;
+    //private SoundStateTransition _transition = SoundStateTransition.Crossfade;
     private string _transitionToTake = "";
     public bool shouldPlay;
     [SerializeField] private bool[] layersShouldPlay;
