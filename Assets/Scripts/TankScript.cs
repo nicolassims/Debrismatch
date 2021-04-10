@@ -61,13 +61,12 @@ public class TankScript : MonoBehaviour {
             mount.GetComponent<UpdatePosition>().UpdateMountPosition();
         }
 
-        // if (!master.editing) {
-        //     float x = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) - Convert.ToInt32(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)));
-        //     float y = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) - Convert.ToInt32(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)));
-        //
-        //     transform.Translate(x, y, 0);           
-        // }
-        if (!master.editing)
+        if (!master.editing) {
+            float x = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) - Convert.ToInt32(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)));
+            float y = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) - Convert.ToInt32(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)));
+            transform.Translate(x, y, 0);           
+        }
+        /*if (!master.editing)
         {
             // Adjust rotation
             transform.Rotate(0, 0, rotationSpeed * Input.GetAxis("Horizontal"));
@@ -75,7 +74,7 @@ public class TankScript : MonoBehaviour {
             {
                 ApplyEngineThrust();
             }
-        }
+        }*/
     }
 
     /*
@@ -89,15 +88,11 @@ public class TankScript : MonoBehaviour {
         foreach (GameObject spot in mounts)
         {
             GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
-            Debug.Log(tankPart);
             if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null)
             {
-                Debug.Log("Add force");
                 float partRotation = tankPart.transform.rotation.eulerAngles.z + 180f;
-                Debug.Log(partRotation);
                 totalThrust.x -= baseThrust * (float)Math.Cos(partRotation);
                 totalThrust.y -= baseThrust * (float)Math.Sin(partRotation);
-                Debug.Log("total thrust = " + totalThrust.x + " " + totalThrust.y);
             }
         }
         transform.Translate(totalThrust.x, totalThrust.y, 0);
