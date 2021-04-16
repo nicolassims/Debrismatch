@@ -578,6 +578,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   editing: 1
+  vending: {fileID: 135482727}
 --- !u!4 &1094611776
 Transform:
   m_ObjectHideFlags: 0

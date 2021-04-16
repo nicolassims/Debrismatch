@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MasterScript : MonoBehaviour {
     public bool editing = true;
+    public GameObject vending;
     bool lastEditing = true;
+
 
     // Update is called once per frame
     void Update() {
@@ -27,6 +29,7 @@ public class MasterScript : MonoBehaviour {
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
                 }
+                vending.SetActive(true);
             } else {
                 cam.orthographicSize = 30;
                 foreach (GameObject go in widgetlist) {
@@ -43,6 +46,7 @@ public class MasterScript : MonoBehaviour {
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = false;
                 }
+                vending.SetActive(false);
             }
 
             lastEditing = editing;
