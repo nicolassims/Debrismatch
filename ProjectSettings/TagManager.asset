@@ -9,6 +9,7 @@ TagManager:
   - Tank
   - Master
   - Bullet
+  - Vending
   layers:
   - Default
   - TransparentFX
