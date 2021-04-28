@@ -32,7 +32,10 @@ public class MasterScript : MonoBehaviour {
                 foreach (GameObject go in widgetlist) {
                     go.GetComponent<EditingWidget>().enabled = true;
                     go.GetComponent<BoxCollider2D>().enabled = true;
-                    go.GetComponent<ActiveWeapon>().enabled = false;
+                    ActiveWeapon aw = go.GetComponent<ActiveWeapon>();
+                    if (aw != null) {
+                        go.GetComponent<ActiveWeapon>().enabled = false;
+                    }
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
