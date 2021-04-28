@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TankScript : MonoBehaviour {
     public int numSides;//the number of sides the "placement object" has. This assumes the placement object is a parallelogram
     public float rotationSpeed; // how many degrees per frame the tank can rotate
+    public float friction; // 0-1. The larger this is, the faster the tank slows down.
     public GameObject redspot;
+    
 
     List<GameObject> mounts = new List<GameObject>();
-    MasterScript master;
+    private MasterScript master;
+    private Rigidbody2D rigidbody;
 
     List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
@@ -25,7 +29,11 @@ public class TankScript : MonoBehaviour {
     }
 
     // Start is called before the first frame update
-    void Start() {
+    void Start()
+    {
+        // Assign rigidbody
+        rigidbody = GetComponent<Rigidbody2D>();
+        
         if (numSides < 3) {
             throw new ArgumentException("Number of sides cannot be <3.");
         }
@@ -52,29 +60,53 @@ public class TankScript : MonoBehaviour {
             // Mount spots should have this tank as their parent.
             redspot = Instantiate(redspot, v3, Quaternion.identity, this.transform);
             redspot.GetComponent<UpdatePosition>().master = gameObject;
+            redspot.transform.SetParent(this.transform); // this way the mounts will move with the tank
             mounts.Add(redspot);
         }
     }
 
     void Update() {
         foreach (GameObject mount in mounts) {
-            mount.GetComponent<UpdatePosition>().UpdateMountPosition();
+            // mount.GetComponent<UpdatePosition>().UpdateMountPosition();
         }
 
-        if (!master.editing) {
+        /*if (!master.editing) {
             float x = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) - Convert.ToInt32(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)));
             float y = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) - Convert.ToInt32(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)));
             transform.Translate(x, y, 0);           
-        }
-        /*if (!master.editing)
+        }*/
+        if (!master.editing)
         {
             // Adjust rotation
-            transform.Rotate(0, 0, rotationSpeed * Input.GetAxis("Horizontal"));
+            this.transform.Rotate(0, 0, rotationSpeed * -Input.GetAxis("Horizontal"));
+            // Add engine thrust
             if (Input.GetKey(KeyCode.Z))
             {
+                Debug.Log("Apply Thrust");
                 ApplyEngineThrust();
             }
-        }*/
+            else
+            {
+                // toggle all fire fx off
+                foreach (GameObject spot in mounts)
+                {
+                    GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
+                    if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null)
+                    {
+                        tankPart.GetComponent<EditingWidget>().ToggleFx(false);
+                    }
+                }
+            }
+            // Apply friction
+            ApplyFriction(friction);
+        }
+    }
+
+    private void ApplyFriction(float f)
+    {
+        var currentVelocity = rigidbody.velocity;
+        var oppositeForce = -1 * f * currentVelocity;
+        rigidbody.AddForce(oppositeForce);
     }
 
     /*
@@ -83,18 +115,16 @@ public class TankScript : MonoBehaviour {
      */
     void ApplyEngineThrust()
     {
-        Vector2 totalThrust = new Vector2(0, 0);
-        float baseThrust = 0.1f;
+        float baseThrust = 0.5f;
         foreach (GameObject spot in mounts)
         {
             GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
             if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null)
             {
-                float partRotation = tankPart.transform.rotation.eulerAngles.z + 180f;
-                totalThrust.x -= baseThrust * (float)Math.Cos(partRotation);
-                totalThrust.y -= baseThrust * (float)Math.Sin(partRotation);
+                Debug.Log("Adding force " + tankPart.transform.right.ToString());
+                rigidbody.AddForce(tankPart.transform.right * baseThrust);
+                tankPart.GetComponent<EditingWidget>().ToggleFx(true);
             }
         }
-        transform.Translate(totalThrust.x, totalThrust.y, 0);
     }
 }

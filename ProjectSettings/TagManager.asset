@@ -10,6 +10,8 @@ TagManager:
   - Master
   - Bullet
   - Vending
+  - FX
+  - Editor Root
   layers:
   - Default
   - TransparentFX

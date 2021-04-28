@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,15 @@ public class MasterScript : MonoBehaviour {
     public GameObject vending;
     bool lastEditing = true;
 
+    private void Start()
+    {
+        Physics.queriesHitTriggers = true; // Sets this global variable to ensure part dragging works
+    }
+
 
     // Update is called once per frame
     void Update() {
+        // Handle editor mode swap
         if (Input.GetKeyUp(KeyCode.Space)) {
             editing = !editing;
         }
@@ -20,6 +27,7 @@ public class MasterScript : MonoBehaviour {
             GameObject[] mountlist = GameObject.FindGameObjectsWithTag("Mounting");
             GameObject tank = GameObject.FindGameObjectWithTag("Tank");
             if (editing) {
+                // Testing -> Editing
                 cam.orthographicSize = 10;
                 foreach (GameObject go in widgetlist) {
                     go.GetComponent<EditingWidget>().enabled = true;
@@ -31,6 +39,7 @@ public class MasterScript : MonoBehaviour {
                 }
                 vending.SetActive(true);
             } else {
+                // Editing -> Testing
                 cam.orthographicSize = 30;
                 foreach (GameObject go in widgetlist) {
                     go.GetComponent<EditingWidget>().enabled = false;

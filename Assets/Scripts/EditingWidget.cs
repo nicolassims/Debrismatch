@@ -6,13 +6,18 @@ public class EditingWidget : MonoBehaviour {
     public GameObject redspot;//the location weapons will snap to
     public float snapDistance = 1;//the distance weapons can be from mounting locations before they'll snap to them.
     public GameObject closestMount;
+    public SpriteRenderer fireFx;
+    public Transform root; // the object normally above this in the scene hierarchy
 
     void Start() {
         redspot = GameObject.FindGameObjectWithTag("Mounting");
+        ToggleFx(false);
+        root = transform.parent;
     }
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
     void OnMouseDrag() {
+        this.transform.SetParent(root); // reset parent to root
         if (closestMount != null) {//if a closest mount has been set, break the connection in both directions.
             closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
             closestMount = null;//remove this gameobject's reference to the mount
@@ -21,7 +26,8 @@ public class EditingWidget : MonoBehaviour {
         Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         transform.position = new Vector3(mousepos.x, mousepos.y);
 
-        Vector2 tank = GameObject.Find("Tank").transform.position;
+        Transform tankTransform = GameObject.Find("Tank").transform;
+        Vector2 tank = tankTransform.position;
         float newy = transform.position.y - tank.y;
         float newx = transform.position.x - tank.x;
         transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(newy, newx) + 180);
@@ -36,6 +42,7 @@ public class EditingWidget : MonoBehaviour {
             UpdatePosition spot = closestMount.GetComponent<UpdatePosition>();
             spot.servant = gameObject;
             spot.myRotation = transform.rotation.eulerAngles.z;
+            this.transform.SetParent(closestMount.transform); // now this will move when its mount does
         }
     }
 
@@ -54,5 +61,15 @@ public class EditingWidget : MonoBehaviour {
         }
 
         return closestMount;
+    }
+
+    // Used with thrusters which display a flame effect while active.
+    // Simply turns the fire on or off.
+    public void ToggleFx(bool isOn)
+    {
+        if (fireFx != null)
+        {
+            fireFx.enabled = isOn;
+        }
     }
 }

@@ -9,7 +9,7 @@ public class VendingScript : MonoBehaviour {
 
     void Start() {
         for (var i = 0; i < parts.Length; i++) {
-            GameObject newobj = Instantiate(parts[i], new Vector3(-13.5f, 10 - 20 / (parts.Length + 1) * (i + 1)), Quaternion.identity);
+            GameObject newobj = Instantiate(parts[i], new Vector3(-13.5f, 10 - 20 / (parts.Length + 1) * (i + 1)), Quaternion.identity, GameObject.FindWithTag("Editor Root").transform);
             vended.Add(newobj.name.Replace("(Clone)", ""));
         }
     }
