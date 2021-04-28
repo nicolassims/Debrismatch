@@ -13,7 +13,7 @@ public class TankScript : MonoBehaviour {
 
     List<GameObject> mounts = new List<GameObject>();
     private MasterScript master;
-    private Rigidbody2D rigidbody;
+    private new Rigidbody2D rigidbody;
 
     List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
@@ -29,8 +29,7 @@ public class TankScript : MonoBehaviour {
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
         // Assign rigidbody
         rigidbody = GetComponent<Rigidbody2D>();
         
@@ -60,39 +59,23 @@ public class TankScript : MonoBehaviour {
             // Mount spots should have this tank as their parent.
             redspot = Instantiate(redspot, v3, Quaternion.identity, this.transform);
             redspot.GetComponent<UpdatePosition>().master = gameObject;
-            redspot.transform.SetParent(this.transform); // this way the mounts will move with the tank
+            redspot.transform.SetParent(transform); // this way the mounts will move with the tank
             mounts.Add(redspot);
         }
     }
 
     void Update() {
-        foreach (GameObject mount in mounts) {
-            // mount.GetComponent<UpdatePosition>().UpdateMountPosition();
-        }
-
-        /*if (!master.editing) {
-            float x = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) - Convert.ToInt32(Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)));
-            float y = 0.1f * (Convert.ToInt32(Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) - Convert.ToInt32(Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)));
-            transform.Translate(x, y, 0);           
-        }*/
-        if (!master.editing)
-        {
+        if (!master.editing) {
             // Adjust rotation
-            this.transform.Rotate(0, 0, rotationSpeed * -Input.GetAxis("Horizontal"));
+            transform.Rotate(0, 0, rotationSpeed * -Input.GetAxis("Horizontal"));
             // Add engine thrust
-            if (Input.GetKey(KeyCode.Z))
-            {
-                Debug.Log("Apply Thrust");
+            if (Input.GetKey(KeyCode.Z)) {
                 ApplyEngineThrust();
-            }
-            else
-            {
+            } else {
                 // toggle all fire fx off
-                foreach (GameObject spot in mounts)
-                {
+                foreach (GameObject spot in mounts) {
                     GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
-                    if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null)
-                    {
+                    if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null) {
                         tankPart.GetComponent<EditingWidget>().ToggleFx(false);
                     }
                 }
@@ -102,8 +85,7 @@ public class TankScript : MonoBehaviour {
         }
     }
 
-    private void ApplyFriction(float f)
-    {
+    private void ApplyFriction(float f) {
         var currentVelocity = rigidbody.velocity;
         var oppositeForce = -1 * f * currentVelocity;
         rigidbody.AddForce(oppositeForce);
@@ -113,15 +95,11 @@ public class TankScript : MonoBehaviour {
      * Applies a force to the tank based on the number of thrusters attached to it
      * and which directions they're facing.
      */
-    void ApplyEngineThrust()
-    {
+    void ApplyEngineThrust() {
         float baseThrust = 0.5f;
-        foreach (GameObject spot in mounts)
-        {
+        foreach (GameObject spot in mounts) {
             GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
-            if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null)
-            {
-                Debug.Log("Adding force " + tankPart.transform.right.ToString());
+            if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null) {
                 rigidbody.AddForce(tankPart.transform.right * baseThrust);
                 tankPart.GetComponent<EditingWidget>().ToggleFx(true);
             }

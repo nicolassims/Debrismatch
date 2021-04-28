@@ -99,7 +99,6 @@ public class SoundManager : MonoBehaviour
             UpdateSongPosition();
             if (_onBeat)
             {
-                Debug.Log("beat " + songPositionInBeats);
                 // Transition if needed
                 if (!_transitionToTake.Equals(""))
                 {
