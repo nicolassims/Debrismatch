@@ -9,40 +9,51 @@ public class EditingWidget : MonoBehaviour {
     public SpriteRenderer fireFx;
     public Transform root; // the object normally above this in the scene hierarchy
 
+    private MasterScript ms;
+
     void Start() {
         redspot = GameObject.FindGameObjectWithTag("Mounting");
         ToggleFx(false);
         root = transform.parent;
+        ms = GameObject.FindWithTag("Master").GetComponent<MasterScript>();
     }
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
     void OnMouseDrag() {
-        this.transform.SetParent(root); // reset parent to root
-        if (closestMount != null) {//if a closest mount has been set, break the connection in both directions.
-            closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
-            closestMount = null;//remove this gameobject's reference to the mount
+        Debug.Log("drag on part");
+        if (ms.editing)
+        {
+            if (closestMount != null) {//if a closest mount has been set, break the connection in both directions.
+                closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
+                closestMount = null;//remove this gameobject's reference to the mount
+                this.transform.SetParent(root); // reset parent to root
+            }
+
+            Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(mousepos.x, mousepos.y);
+
+            Transform tankTransform = GameObject.Find("Tank").transform;
+            Vector2 tank = tankTransform.position;
+            float newy = transform.position.y - tank.y;
+            float newx = transform.position.x - tank.x;
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(newy, newx) + 180);
         }
-
-        Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        transform.position = new Vector3(mousepos.x, mousepos.y);
-
-        Transform tankTransform = GameObject.Find("Tank").transform;
-        Vector2 tank = tankTransform.position;
-        float newy = transform.position.y - tank.y;
-        float newx = transform.position.x - tank.x;
-        transform.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(newy, newx) + 180);
     }
 
     //when the mouse is let go--i.e., after you stop dragging--look for the nearest mount and snap to it.
     void OnMouseUp() {
-        closestMount = GetClosestMount(GameObject.FindGameObjectsWithTag("Mounting"));
+        Debug.Log("mouseup on part");
+        if (ms.editing)
+        {
+            closestMount = GetClosestMount(GameObject.FindGameObjectsWithTag("Mounting"));
 
-        if (closestMount != null) {
-            transform.position = closestMount.transform.position;
-            UpdatePosition spot = closestMount.GetComponent<UpdatePosition>();
-            spot.servant = gameObject;
-            spot.myRotation = transform.rotation.eulerAngles.z;
-            this.transform.SetParent(closestMount.transform); // now this will move when its mount does
+            if (closestMount != null) {
+                transform.position = closestMount.transform.position;
+                UpdatePosition spot = closestMount.GetComponent<UpdatePosition>();
+                spot.servant = gameObject;
+                spot.myRotation = transform.rotation.eulerAngles.z;
+                this.transform.SetParent(closestMount.transform); // now this will move when its mount does
+            }
         }
     }
 
@@ -71,5 +82,11 @@ public class EditingWidget : MonoBehaviour {
         {
             fireFx.enabled = isOn;
         }
+    }
+    
+    // Is this part currently mounted on a tank?
+    public bool IsMounted()
+    {
+        return transform.parent != root;
     }
 }

@@ -8,12 +8,16 @@ public class TankScript : MonoBehaviour {
     public int numSides;//the number of sides the "placement object" has. This assumes the placement object is a parallelogram
     public float rotationSpeed; // how many degrees per frame the tank can rotate
     public float friction; // 0-1. The larger this is, the faster the tank slows down.
+    public float baseThrust; // the strength of one thruster.
     public GameObject redspot;
     
 
     List<GameObject> mounts = new List<GameObject>();
     private MasterScript master;
     private new Rigidbody2D rigidbody;
+    // Variables to store the tank's original position
+    private Vector2 originalPosition;
+    private Quaternion originalRotation;
 
     List<Vector2> GetCorners(float radius) {
         List<Vector2> points = new List<Vector2>();
@@ -62,6 +66,10 @@ public class TankScript : MonoBehaviour {
             redspot.transform.SetParent(transform); // this way the mounts will move with the tank
             mounts.Add(redspot);
         }
+        
+        // Store the tank's original position
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
     }
 
     void Update() {
@@ -96,7 +104,6 @@ public class TankScript : MonoBehaviour {
      * and which directions they're facing.
      */
     void ApplyEngineThrust() {
-        float baseThrust = 0.5f;
         foreach (GameObject spot in mounts) {
             GameObject tankPart = spot.GetComponent<UpdatePosition>().servant;
             if (tankPart != null && tankPart.GetComponent<ActiveWeapon>() == null) {
@@ -104,5 +111,14 @@ public class TankScript : MonoBehaviour {
                 tankPart.GetComponent<EditingWidget>().ToggleFx(true);
             }
         }
+    }
+
+    // Used when transitioning to Edit mode to move the tank back into frame.
+    public void Reset()
+    {
+        transform.position = originalPosition;
+        transform.rotation = originalRotation;
+        rigidbody.velocity = Vector2.zero; // kill movement
+        rigidbody.angularVelocity = 0f; // kill spin
     }
 }
