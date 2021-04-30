@@ -20,13 +20,10 @@ public class EditingWidget : MonoBehaviour {
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
     void OnMouseDrag() {
-        //Debug.Log("drag on part");
         if (ms.editing) {
-            print("reached here");
             if (IsMounted()) {//if a closest mount has been set, break the connection in both directions.
                 closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
                 closestMount = null;//remove this gameobject's reference to the mount
-                //transform.SetParent(root); // reset parent to root
             }
 
             Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -41,7 +38,6 @@ public class EditingWidget : MonoBehaviour {
 
     //when the mouse is let go--i.e., after you stop dragging--look for the nearest mount and snap to it.
     void OnMouseUp() {
-        Debug.Log("mouseup on part");
         if (ms.editing)  {
             closestMount = GetClosestMount(GameObject.FindGameObjectsWithTag("Mounting"));
 
@@ -51,7 +47,6 @@ public class EditingWidget : MonoBehaviour {
                 spot.servant = gameObject;
                 spot.myRotation = transform.rotation.eulerAngles.z;
             }
-            //transform.SetParent(root);
         }
     }
 
@@ -61,7 +56,7 @@ public class EditingWidget : MonoBehaviour {
         float closestDistanceSqr = snapDistance;
         Vector3 currentPosition = transform.position;
         foreach (GameObject potentialTarget in mounts) {
-            Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+            Vector2 directionToTarget = potentialTarget.transform.position - currentPosition;
             float dSqrToTarget = directionToTarget.sqrMagnitude;
             if (dSqrToTarget < closestDistanceSqr) {
                 closestDistanceSqr = dSqrToTarget;
