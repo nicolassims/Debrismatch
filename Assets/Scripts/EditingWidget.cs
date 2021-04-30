@@ -20,18 +20,17 @@ public class EditingWidget : MonoBehaviour {
 
     //when the mouse is dragging the weapon, update its location to the mouse's location.
     void OnMouseDrag() {
-        Debug.Log("drag on part");
-        if (ms.editing)
-        {
-            if (closestMount != null) {//if a closest mount has been set, break the connection in both directions.
+        //Debug.Log("drag on part");
+        if (ms.editing) {
+            print("reached here");
+            if (IsMounted()) {//if a closest mount has been set, break the connection in both directions.
                 closestMount.GetComponent<UpdatePosition>().servant = null;//remove the mount's reference to this
                 closestMount = null;//remove this gameobject's reference to the mount
-                this.transform.SetParent(root); // reset parent to root
+                //transform.SetParent(root); // reset parent to root
             }
 
             Vector2 mousepos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(mousepos.x, mousepos.y);
-
             Transform tankTransform = GameObject.Find("Tank").transform;
             Vector2 tank = tankTransform.position;
             float newy = transform.position.y - tank.y;
@@ -43,8 +42,7 @@ public class EditingWidget : MonoBehaviour {
     //when the mouse is let go--i.e., after you stop dragging--look for the nearest mount and snap to it.
     void OnMouseUp() {
         Debug.Log("mouseup on part");
-        if (ms.editing)
-        {
+        if (ms.editing)  {
             closestMount = GetClosestMount(GameObject.FindGameObjectsWithTag("Mounting"));
 
             if (closestMount != null) {
@@ -52,12 +50,12 @@ public class EditingWidget : MonoBehaviour {
                 UpdatePosition spot = closestMount.GetComponent<UpdatePosition>();
                 spot.servant = gameObject;
                 spot.myRotation = transform.rotation.eulerAngles.z;
-                this.transform.SetParent(closestMount.transform); // now this will move when its mount does
             }
+            //transform.SetParent(root);
         }
     }
 
-    //Return the nearest GameObject, from the given list. Returns null if none are closer than 50, or if the list is empty.
+    //Return the nearest GameObject, from the given list. Returns null if none are close enough, or if the list is empty.
     GameObject GetClosestMount(GameObject[] mounts) {
         GameObject closestMount = null;
         float closestDistanceSqr = snapDistance;
@@ -76,17 +74,14 @@ public class EditingWidget : MonoBehaviour {
 
     // Used with thrusters which display a flame effect while active.
     // Simply turns the fire on or off.
-    public void ToggleFx(bool isOn)
-    {
-        if (fireFx != null)
-        {
+    public void ToggleFx(bool isOn) {
+        if (fireFx != null) {
             fireFx.enabled = isOn;
         }
     }
     
     // Is this part currently mounted on a tank?
-    public bool IsMounted()
-    {
-        return transform.parent != root;
+    public bool IsMounted() {
+        return closestMount != null;
     }
 }

@@ -32,6 +32,9 @@ public class MasterScript : MonoBehaviour {
                 foreach (GameObject go in widgetlist) {
                     EditingWidget ew = go.GetComponent<EditingWidget>();
                     ew.ToggleFx(false);
+
+                    Transform root = go.GetComponent<EditingWidget>().root;
+                    go.transform.SetParent(root); // now this will move when its mount does
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
@@ -47,6 +50,9 @@ public class MasterScript : MonoBehaviour {
                     }
                     if (!go.GetComponent<EditingWidget>().IsMounted()) {
                         Destroy(go);
+                    } else {
+                        Transform mount = go.GetComponent<EditingWidget>().closestMount.transform;
+                        go.transform.SetParent(mount); // now this will move when its mount does
                     }
                 }
                 foreach (GameObject mount in mountlist) {

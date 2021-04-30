@@ -65,7 +65,7 @@ public class TankScript : MonoBehaviour {
             Vector3 v3 = pos + originalPosition;
             //creating the red spot at the edge of the object. the empty Quaternion is mandatory.
             // Mount spots should have this tank as their parent.
-            redspot = Instantiate(redspot, v3, Quaternion.identity, this.transform);
+            redspot = Instantiate(redspot, v3, Quaternion.identity, transform);
             redspot.GetComponent<UpdatePosition>().master = gameObject;
             mounts.Add(redspot);
         }
@@ -113,8 +113,7 @@ public class TankScript : MonoBehaviour {
     }
 
     // Used when transitioning to Edit mode to move the tank back into frame.
-    public void Reset()
-    {
+    public void Reset() {
         transform.position = originalPosition;
         transform.rotation = originalRotation;
         rigidbody.velocity = Vector2.zero; // kill movement
