@@ -1091,7 +1091,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 10
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -2001,11 +2001,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 762634842654864274, guid: a8a8a3a33b5631a45bd47dc13229be78, type: 3}
       propertyPath: baseThrust
-      value: 8
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 762634842654864274, guid: a8a8a3a33b5631a45bd47dc13229be78, type: 3}
       propertyPath: rotationSpeed
-      value: 0.2
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8a8a3a33b5631a45bd47dc13229be78, type: 3}

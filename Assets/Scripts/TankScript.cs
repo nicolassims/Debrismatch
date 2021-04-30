@@ -71,7 +71,7 @@ public class TankScript : MonoBehaviour {
         }
     }
 
-    void Update() {
+    void FixedUpdate() {
         if (!master.editing) {
             // Adjust rotation
             transform.Rotate(0, 0, rotationSpeed * -Input.GetAxis("Horizontal"));
