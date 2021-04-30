@@ -36,10 +36,14 @@ public class TankScript : MonoBehaviour {
     void Start() {
         // Assign rigidbody
         rigidbody = GetComponent<Rigidbody2D>();
-        
+
         if (numSides < 3) {
             throw new ArgumentException("Number of sides cannot be <3.");
         }
+        
+        // Store the tank's original position
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
 
         master = GameObject.FindGameObjectWithTag("Master").GetComponent<MasterScript>();
         List<Vector2> points = GetCorners(GetComponent<SpriteRenderer>().sprite.rect.width / 2);
@@ -58,18 +62,13 @@ public class TankScript : MonoBehaviour {
         //add a red spot on each midpoint
         foreach (Vector2 pos in midpoints) {
             //converting Vector2 into Vector3
-            Vector3 v3 = pos;
+            Vector3 v3 = pos + originalPosition;
             //creating the red spot at the edge of the object. the empty Quaternion is mandatory.
             // Mount spots should have this tank as their parent.
             redspot = Instantiate(redspot, v3, Quaternion.identity, this.transform);
             redspot.GetComponent<UpdatePosition>().master = gameObject;
-            redspot.transform.SetParent(transform); // this way the mounts will move with the tank
             mounts.Add(redspot);
         }
-        
-        // Store the tank's original position
-        originalPosition = transform.position;
-        originalRotation = transform.rotation;
     }
 
     void Update() {

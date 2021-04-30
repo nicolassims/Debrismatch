@@ -9,12 +9,13 @@ public class VendingScript : MonoBehaviour {
 
     void Start() {
         for (var i = 0; i < parts.Length; i++) {
-            GameObject newobj = Instantiate(parts[i], new Vector3(-13.5f, 10 - 20 / (parts.Length + 1) * (i + 1)), Quaternion.identity, GameObject.FindWithTag("Editor Root").transform);
+            GameObject newobj = Instantiate(parts[i], new Vector3(-11.5f, 10 - 20 / (parts.Length + 1) * (i + 1)), Quaternion.identity, GameObject.FindWithTag("Editor Root").transform);
             vended.Add(newobj.name.Replace("(Clone)", ""));
         }
     }
 
-    void OnMouseDown() {
+    public void VendItems()
+    {
         List<string> tempvended = new List<string>(vended);
         foreach (GameObject part in GameObject.FindGameObjectsWithTag("Widget")) {
             if (part.GetComponent<EditingWidget>().closestMount == null) {
