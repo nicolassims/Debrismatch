@@ -8,8 +8,7 @@ public class MasterScript : MonoBehaviour {
     public GameObject vending;
     bool lastEditing = true;
 
-    private void Start()
-    {
+    private void Start() {
         Physics.queriesHitTriggers = true; // Sets this global variable to ensure part dragging works
     }
 
@@ -30,16 +29,9 @@ public class MasterScript : MonoBehaviour {
                 // Testing -> Editing
                 cam.orthographicSize = 10;
                 tank.GetComponent<TankScript>().Reset();
-                foreach (GameObject go in widgetlist)
-                {
+                foreach (GameObject go in widgetlist) {
                     EditingWidget ew = go.GetComponent<EditingWidget>();
-                    //ew.enabled = true;
                     ew.ToggleFx(false);
-                    //go.GetComponent<BoxCollider2D>().enabled = true;
-                    //ActiveWeapon aw = go.GetComponent<ActiveWeapon>();
-                    //if (aw != null) {
-                    //    go.GetComponent<ActiveWeapon>().enabled = false;
-                    //}
                 }
                 foreach (GameObject mount in mountlist) {
                     mount.GetComponent<SpriteRenderer>().enabled = true;
@@ -49,8 +41,6 @@ public class MasterScript : MonoBehaviour {
                 // Editing -> Testing
                 cam.orthographicSize = 30;
                 foreach (GameObject go in widgetlist) {
-                    //go.GetComponent<EditingWidget>().enabled = false;
-                    //go.GetComponent<BoxCollider2D>().enabled = false;
                     ActiveWeapon aw = go.GetComponent<ActiveWeapon>();
                     if (aw != null) {
                         go.GetComponent<ActiveWeapon>().enabled = true;
